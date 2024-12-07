@@ -85,3 +85,34 @@ function wishing(){
     //the code do it later...
 }
 ```
+
+## Appearance
+
+### Homepage
+
+
+
+### Wishing Page
+
+
+
+### Banners
+
+    Standard
+
+        do it later...
+
+    Weapon
+
+        do it later...
+
+    Limited
+
+        do it later...
+
+
+### History
+
+
+
+# The End!!!!!!

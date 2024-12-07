@@ -20,6 +20,8 @@ MY RULES: at 5 pull, four star increase by 18.8% ; 50 50 for five star = 53 47
 For four star there is a 60 40 between character and weapon first before going to actual
 Same for Standard Banner
 
+Pities = carry over in the same banner
+
 
 limited: get at 80
 one limited five star
