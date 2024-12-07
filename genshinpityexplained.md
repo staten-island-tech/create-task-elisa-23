@@ -22,6 +22,7 @@ Same for Standard Banner
 
 Pities = carry over in the same banner
 
+On the standard banner = standard character + weapons get higher rates: 70 30
 
 limited: get at 80
 one limited five star

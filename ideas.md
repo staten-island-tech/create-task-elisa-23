@@ -48,7 +48,7 @@ function weapon(pulls, weapons){
             pull('weapon', weapons, i);
             console.log(i + " out of " + pulls + "made");
         }
-    } else {
+    }else {
         return "There has been an error in the system! Please reload the page and try again. NOTE: Your data will be saved. Just know your password and username!!!!!";
     }
 }
@@ -58,7 +58,16 @@ function weapon(pulls, weapons){
 
 ```JavaScript
 function pull(type, items, i){
-    //the code do it later...
+    if (type === 'standard'){
+        //write what happens...
+    }else if (type === 'limited'){
+        //write what happens...
+    }else if (type === 'weapon'){
+        //write what happens...
+    }else {
+        //write code for the refund...
+        return "Something wrong has occurred when you were pulling... Apologies. Your currency shall be refunded for the remaining pulls."
+    }
 }
 ```
 
