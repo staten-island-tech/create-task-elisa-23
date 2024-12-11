@@ -2,7 +2,7 @@
 module.exports = {
   content: ["./index.html", "./main.js", "./src/**/*.{js,ts,jsx,tsx}"],
   daisyui: {
-    themes: ["dracula"],
+    themes: [],
   },
   theme: {
     extend: {},
