@@ -17,7 +17,7 @@ there are usually three rate ups => 50 split up so after 50 chosen 1/3 between e
 
 MY RULES: at 5 pull, four star increase by 18.8% ; 50 50 for five star = 53 47
 
-For four star there is a 60 40 between character and weapon first before going to actual
+For four star there is a 60 40(rate for standard + limited - will switch around on weapon) between character and weapon first before going to actual
 Same for Standard Banner
 
 Pities = carry over in the same banner
