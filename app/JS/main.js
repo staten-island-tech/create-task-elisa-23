@@ -21,6 +21,7 @@ const standardCharacters = [];
 const standardWeapons = [];
 
 let aquiredCharacters = [];
+let acquiredWeapons = [];
 
 let guarenteed = false;
 
@@ -85,54 +86,36 @@ function pitySystem(type) {
         return "Something wrong has occurred when you were pulling... Apologies."
     }
     return { five: fiveStar, four: fourStar };
-    //to use this do const pity = pitySystem(...);
-    //pity.five; //how do access fiveStar;
 }
 
-function pull(type, items, i) {
+function pull(type, items) {
     const random = Math.floor(Math.random() * 1000);
     fourPity++;
     pity++;
     const currentPity = pitySystem(type);
     const rateUps = items;
-    if (type === 'standard' || type === 'limited') {
-        const characterRate = 600;
-        const weaponRate = 400;
-    } else if (type === 'weapon') {
-        const characterRate = 400;
-        const weaponRate = 600;
-    }
-
     if (fourPity >= 10) {
         if (random <= currentPity.five) {
             return five(random, rateUps, type);
         } else {
-            fourPity = 0;
-            if (random < 500) {
-                const gamble = (((3 * Math.random()) % 4) * 89) % 3;
-                return rateUps.fourStar[gamble];
-            } else {
-                const gamble = (((3 * Math.random()) % 4) * 89) % 3;
-                function shuffle(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                }
-                const fourCharacts = shuffle(charactersAll.fourStar);
-                return fourCharacts[gamble];
-
-            }
+            return four(random, rateUps, type);
         }
     } else if (pity === 90) {
         return five(random, rateUps, type);
     } else {
         if (random <= currentPity.five) {
-
+            return five(random, rateUps, type);
         } else if (random <= currentPity.four) {
-
+            return four(random, rateUps, type);
         } else {
-
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+            const threeWeapons = shuffle(weaponsAll.threeStar);
+            return threeWeapons[gamble];
         }
     }
 
@@ -155,6 +138,29 @@ function five(random, rateUps, type) {
             } else {
                 return standardCharacters[gamble];
             }
+        }
+    }
+}
+
+function four(random, rateUps, type) {
+    fourPity = 0;
+    if (random < 500) {
+        const gamble = (((3 * Math.random()) % 4) * 89) % 3;
+        return rateUps.fourStar[gamble];
+    } else {
+        const gamble = (((3 * Math.random()) % 4) * 89) % 3;
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        const fourCharacts = shuffle(charactersAll.fourStar);
+        const fourWeapons = shuffle(weaponsAll.fourStar);
+        if (type === "weapon") {
+            return fourWeapons[gamble];
+        } else {
+            return fourCharacts[gamble];
         }
     }
 }
