@@ -25,17 +25,35 @@ let acquiredWeapons = [];
 
 let guarenteed = false;
 
+let money = 0;
+
 async function getData() {
 
 }
 
 getData();
 
+function wish(type, currency, pull, items) {
+    if (currency >= 0) {
+        if (type === "limited") {
+            limited(pull, items);
+        } else if (type === "standard") {
+            standard(pull);
+        } else if (type === "weapon") {
+            weapon(pull, items);
+        }
+        history.push(shortHistory);
+    } else {
+        return "You're broke. Come back when you have coins in your pocket.";
+    }
+}
+
 function limited(pulls, characters) {
     currentPull.innerHTML = "";
     if (pulls === 10 || pulls === 1) {
         for (let i = 1; i <= pulls; i++) {
-            pull('limited', characters, i);
+            const result = pull('limited', characters);
+            shortHistory.push(result);
             console.log(i + " out of " + pulls + "made");
         }
     } else {
@@ -51,7 +69,8 @@ function standard(pulls) {
     };
     if (pulls === 10 || pulls === 1) {
         for (let i = 1; i <= pulls; i++) {
-            pull('standard', standard, i);
+            const result = pull('standard', standard);
+            shortHistory.push(result);
             console.log(i + " out of " + pulls + "made");
         }
     } else {
@@ -63,7 +82,8 @@ function weapon(pulls, weapons) {
     currentPull.innerHTML = "";
     if (pulls === 10 || pulls === 1) {
         for (let i = 1; i <= pulls; i++) {
-            pull('weapon', weapons, i);
+            const result = pull('weapon', weapons);
+            shortHistory.push(result);
             console.log(i + " out of " + pulls + "made");
         }
     } else {
