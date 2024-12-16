@@ -17,6 +17,6 @@ async function getData() {
 
 function limited() {
     DOMSelectors.limited("click", async function () {
-        DOMSelectors.container.className = "";
+        DOMSelectors.itemContainer.className = "";
     })
 }
