@@ -17,6 +17,9 @@ async function getData() {
 
 function limited() {
     DOMSelectors.limited("click", async function () {
-        DOMSelectors.itemContainer.className = "";
+        DOMSelectors.itemContainer.innerHTML = "";
+        DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
+            ``
+        )
     })
 }
