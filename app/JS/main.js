@@ -9,17 +9,24 @@ const DOMSelectors = {
 };
 
 let characters = [];
-let history = [];
+let aquired = [];
 
 async function getData() {
 
 }
 
 function limited() {
-    DOMSelectors.limited("click", async function () {
+    DOMSelectors.limited.addEventListener("click", async function () {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             ``
         )
+    })
+}
+
+function history() {
+    DOMSelectors.history.addEventListener("click", async function () {
+        DOMSelectors.itemContainer.innerHTML = "";
+
     })
 }
