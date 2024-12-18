@@ -11,6 +11,9 @@ const DOMSelectors = {
 let characters = [];
 let aquired = [];
 
+let fivePity = 0.006;
+
+
 function limited() {
     DOMSelectors.limited.addEventListener("click", async function () {
         DOMSelectors.itemContainer.className = "";
