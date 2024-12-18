@@ -12,6 +12,9 @@ let characters = [];
 let aquired = [];
 
 let fivePity = 0.006;
+let fourPity = 0.06;
+
+let pulls = 0;
 
 
 function limited() {
