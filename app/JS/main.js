@@ -19,18 +19,21 @@ let pulls = 0;
 
 function limited() {
     DOMSelectors.limited.addEventListener("click", async function () {
-        DOMSelectors.itemContainer.className = "";
+        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6";
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            ``
+            `<button class="rounded-btn bg-blue-200">Pull 10x</button>
+            <button class="rounded-btn bg-blue-200">Pull 1x</button>`
         );
         //enter the rest of the code
     })
 }
 
+limited();
+
 function history() {
     DOMSelectors.history.addEventListener("click", async function () {
-        DOMSelectors.itemContainer.className = "grid grid-cols-4 gap-4";
+        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6 grid grid-cols-4 gap-4";
         DOMSelectors.itemContainer.innerHTML = ``;
         aquired
             .sort()
@@ -51,3 +54,5 @@ function history() {
             });
     });
 }
+
+history();
