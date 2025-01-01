@@ -59,16 +59,16 @@ function getCharacter(characts, rarity, n) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
             starGlitter += 25;
-            //add or display on screen
+            //add or display on screen - modal
         } else {
             console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.");
             starGlitter += 5;
-            //add or display on screen
+            //add or display on screen - modal
         }
     } else {
         console.log("loading... acquired CHARACTER: " + character);
         aquired.push(character);
-        //add or display on screen
+        //add or display on screen - use diff
     }
 }
 
@@ -88,7 +88,7 @@ function gacha(n) {
             } else {
                 console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.")
                 starGlitter += 2;
-                //display on screen
+                //add or display on screen - modal
             }
         }
     }
