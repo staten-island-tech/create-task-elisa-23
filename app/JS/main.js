@@ -15,7 +15,30 @@ let fivePity = 0.006;
 let fourPity = 0.06;
 
 let pulls = 0;
-let starglitter = 0;
+let starGlitter = 0;
+
+async function getData() {
+
+}
+
+//add to getData once you finish it -- put the variables outside of the function (organize later...)
+let five = 0;
+let fiveStars = [];
+characters.forEach(character => {
+    if (character.rarity === 5) {
+        five++;
+        fiveStars.push(character);
+    }
+});
+
+let four = 0;
+let fourStars = [];
+characters.forEach(character => {
+    if (character.rarity === 4) {
+        four++;
+        fourStars.push(character);
+    }
+});
 
 function updatePity() {
     if ((pulls >= 75) && (pulls <= 90)) {
@@ -29,20 +52,42 @@ function updatePity() {
     }
 }
 
+function getCharacter(characts, rarity, n) {
+    let rnd = Math.round(Math.random() * (n - 1));
+    const character = characts[rnd];
+    if (aquired.includes(character) === true) {
+        if (rarity === 5) {
+            console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
+            starGlitter += 25;
+            //add or display on screen
+        } else {
+            console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.");
+            starGlitter += 5;
+            //add or display on screen
+        }
+    } else {
+        console.log("loading... acquired CHARACTER: " + character);
+        aquired.push(character);
+        //add or display on screen
+    }
+}
+
 function gacha(n) {
     for (let i = 1; i <= n; i++) {
         pulls++;
         updatePity();
         const num = Math.random();
         if (num < fivePity) {
+            getCharacter(fiveStars, 5, five);
+            pulls = 0;
             fivePity = 0.006;
-            //give five star (if duplicate give 3)
         } else {
             if ((num > fivePity) && (num < (fourPity + fivePity))) {
+                getCharacter(fourStars, 4, four);
                 fourPity = 0.06;
-                //give four star (if duplicate give 3)
             } else {
-                currency += 3;
+                console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.")
+                starGlitter += 2;
                 //display on screen
             }
         }
