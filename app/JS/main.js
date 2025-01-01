@@ -1,9 +1,9 @@
 import '../CSS/style.css';
 
 const DOMSelectors = {
-    limited: document.querySelector("#limited"),
-    standard: document.querySelector("#standard"),
+    wish: document.querySelector("#wish"),
     history: document.querySelector("#history"),
+    shop: document.querySelector("#shop"),
     container: document.querySelector("#container"),
     itemContainer: document.querySelector("#items")
 };
@@ -15,44 +15,65 @@ let fivePity = 0.006;
 let fourPity = 0.06;
 
 let pulls = 0;
+let starglitter = 0;
 
+function updatePity() {
+    if ((pulls >= 75) && (pulls <= 90)) {
+        fivePity += .066;
+    } else {
+        if (pulls % 10 === 0) {
+            fourPity = 0.994;
+        } else if (pulls % 10 >= 5) {
+            fourPity += 0.188;
+        }
+    }
+}
 
-function limited() {
-    DOMSelectors.limited.addEventListener("click", async function () {
+function gacha(n) {
+    for (let i = 1; i <= n; i++) {
+        pulls++;
+        updatePity();
+        const num = Math.random();
+        if (num < fivePity) {
+            fivePity = 0.006;
+            //give five star (if duplicate give 3)
+        } else {
+            if ((num > fivePity) && (num < (fourPity + fivePity))) {
+                fourPity = 0.06;
+                //give four star (if duplicate give 3)
+            } else {
+                currency += 3;
+                //display on screen
+            }
+        }
+    }
+}
+
+function wish() {
+    DOMSelectors.wish.addEventListener("click", async function () {
         DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6";
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            `<button class="rounded-btn bg-blue-200">Pull 10x</button>
-            <button class="rounded-btn bg-blue-200">Pull 1x</button>`
+            `<button class="rounded-btn bg-blue-200" id="ten">Pull 10x</button>
+            <button class="rounded-btn bg-blue-200" id="one">Pull 1x</button>`
         );
-        //enter the rest of the code
-    })
+        const ten = DOMSelectors.querySelector("#ten");
+        const one = DOMSelectors.querySelector("#one")
+        ten.addEventListener("click", function () {
+            DOMSelectors.itemContainer.innerHTML = "";
+            gacha(10);
+        });
+        one.addEventListener("click", function () {
+            DOMSelectors.itemContainer.innerHTML = "";
+            gacha(1);
+        });
+    });
 }
 
-limited();
+wish();
 
 function history() {
-    DOMSelectors.history.addEventListener("click", async function () {
-        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6 grid grid-cols-4 gap-4";
-        DOMSelectors.itemContainer.innerHTML = ``;
-        aquired
-            .sort()
-            .forEach((character) => {
-                DOMSelectors.container.insertAdjacentHTML("beforeend",
-                    `<div class="card card-side justify-around shadow-xl w-[23rem] h-56 bg-white">
-                        <figure class="px-10">
-                            <img
-                                src="https://genshin.jmp.blue/characters/${character}/icon-big"
-                                alt="The icon of ${character}"
-                                class="rounded-xl w-full h-full object-cover" />
-                        </figure>
-                        <div class="card-body">
-                            <h2 class="card-title">${character}</h2>
-                        </div>
-                    </div>`
-                )
-            });
-    });
+
 }
 
 history();
