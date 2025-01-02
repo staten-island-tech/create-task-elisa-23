@@ -18,7 +18,41 @@ let pulls = 0;
 let starGlitter = 0;
 
 async function getData() {
-
+    try {
+        const response = await fetch("https://genshin.jmp.blue/characters/");
+        if (response.status != 200) {
+            throw new Error(response);
+        } else {
+            const data = await response.json();
+            for (const character in data) {
+                async function getIndividualData(character) {
+                    try {
+                        const indiviResponse = await fetch(`https://genshin.jmp.blue/characters/${character}`);
+                        if (indiviResponse.status != 200) {
+                            throw new Error(response);
+                        } else {
+                            const indiviData = await indiviResponse.json();
+                            let charactData = {
+                                name: indiviData.name,
+                                rarity: indiviData.rarity,
+                                title: indiviData.title,
+                                element: indiviData.vision,
+                                imgUrl: `https://genshin.jmp.blue/characters/${character}/icon-big`
+                            }
+                            characters.push(charactData);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        alert("sorry could not find that character");
+                    }
+                }
+                await getIndividualData(character);
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        alert("sorry could not find that character");
+    }
 }
 
 //add to getData once you finish it -- put the variables outside of the function (organize later...)
@@ -59,16 +93,16 @@ function getCharacter(characts, rarity, n) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
             starGlitter += 25;
-            //add or display on screen - modal
+            //add or display on screen - card
         } else {
             console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.");
             starGlitter += 5;
-            //add or display on screen - modal
+            //add or display on screen - card
         }
     } else {
         console.log("loading... acquired CHARACTER: " + character);
         aquired.push(character);
-        //add or display on screen - use diff
+        //add or display on screen - use card
     }
 }
 
@@ -88,7 +122,7 @@ function gacha(n) {
             } else {
                 console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.")
                 starGlitter += 2;
-                //add or display on screen - modal
+                //add or display on screen - card
             }
         }
     }
@@ -118,7 +152,10 @@ function wish() {
 wish();
 
 function history() {
-
+    DOMSelectors.history.addEventListener("click", async function () {
+        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6";
+        DOMSelectors.itemContainer.innerHTML = "";
+    })
 }
 
 history();
