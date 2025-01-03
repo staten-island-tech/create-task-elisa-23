@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pull {
+    background-color: navy;
+    color: aliceblue;
+    align-items: center;
+    font-weight: 500;
+    border-radius: 4rem;
+    width: 10rem;
+    height: 2rem;
+    position: absolute;
+}
+
+#ten {
+    left: 35%;
+}
+
+#one {
+    left: 50%;
+}

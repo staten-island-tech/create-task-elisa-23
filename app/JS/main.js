@@ -131,11 +131,10 @@ function gacha(n) {
 
 function wish() {
     DOMSelectors.wish.addEventListener("click", async function () {
-        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6";
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            `<button class="rounded-btn bg-blue-200" id="ten">Pull 10x</button>
-            <button class="rounded-btn bg-blue-200" id="one">Pull 1x</button>`
+            `<button class="pull" id="ten">Pull 10x</button>
+            <button class="pull" id="one">Pull 1x</button>`
         );
         const ten = document.querySelector("#ten");
         const one = document.querySelector("#one")
@@ -154,7 +153,6 @@ wish();
 
 function history() {
     DOMSelectors.history.addEventListener("click", async function () {
-        DOMSelectors.itemContainer.className = "w-[100%] h-[75rem] mt-[-1.5rem] pt-6";
         DOMSelectors.itemContainer.innerHTML = "";
     })
 }
