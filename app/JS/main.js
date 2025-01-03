@@ -81,8 +81,6 @@ function updatePity() {
     } else {
         if (pulls % 10 === 0) {
             fourPity = 0.994;
-        } else if (pulls % 10 >= 5) {
-            fourPity += 0.188;
         }
     }
 }
@@ -90,6 +88,7 @@ function updatePity() {
 function getCharacter(characts, rarity, n) {
     let rnd = Math.round(Math.random() * (n - 1));
     const character = characts[rnd].name;
+    history.push(character);
     if (aquired.includes(character) === true) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
@@ -126,6 +125,7 @@ function gacha(n) {
                 //add or display on screen - card
             }
         }
+        console.log(fivePity, fourPity);
     }
 }
 
