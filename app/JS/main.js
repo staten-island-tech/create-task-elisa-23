@@ -17,6 +17,12 @@ let fourPity = 0.06;
 let pulls = 0;
 let starGlitter = 0;
 
+let five = 0;
+let fiveStars = [];
+
+let four = 0;
+let fourStars = [];
+
 async function getData() {
     try {
         const response = await fetch("https://genshin.jmp.blue/characters/");
@@ -24,7 +30,7 @@ async function getData() {
             throw new Error(response);
         } else {
             const data = await response.json();
-            for (const character in data) {
+            for (const character of data) {
                 async function getIndividualData(character) {
                     try {
                         const indiviResponse = await fetch(`https://genshin.jmp.blue/characters/${character}`);
@@ -48,6 +54,18 @@ async function getData() {
                 }
                 await getIndividualData(character);
             }
+            characters.forEach(character => {
+                if (character.rarity === 5) {
+                    five++;
+                    fiveStars.push(character);
+                }
+            });
+            characters.forEach(character => {
+                if (character.rarity === 4) {
+                    four++;
+                    fourStars.push(character);
+                }
+            });
         }
     } catch (error) {
         console.log(error);
@@ -55,24 +73,7 @@ async function getData() {
     }
 }
 
-//add to getData once you finish it -- put the variables outside of the function (organize later...)
-let five = 0;
-let fiveStars = [];
-characters.forEach(character => {
-    if (character.rarity === 5) {
-        five++;
-        fiveStars.push(character);
-    }
-});
-
-let four = 0;
-let fourStars = [];
-characters.forEach(character => {
-    if (character.rarity === 4) {
-        four++;
-        fourStars.push(character);
-    }
-});
+getData();
 
 function updatePity() {
     if ((pulls >= 75) && (pulls <= 90)) {
@@ -88,7 +89,7 @@ function updatePity() {
 
 function getCharacter(characts, rarity, n) {
     let rnd = Math.round(Math.random() * (n - 1));
-    const character = characts[rnd];
+    const character = characts[rnd].name;
     if (aquired.includes(character) === true) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
@@ -136,8 +137,8 @@ function wish() {
             `<button class="rounded-btn bg-blue-200" id="ten">Pull 10x</button>
             <button class="rounded-btn bg-blue-200" id="one">Pull 1x</button>`
         );
-        const ten = DOMSelectors.querySelector("#ten");
-        const one = DOMSelectors.querySelector("#one")
+        const ten = document.querySelector("#ten");
+        const one = document.querySelector("#one")
         ten.addEventListener("click", function () {
             DOMSelectors.itemContainer.innerHTML = "";
             gacha(10);
