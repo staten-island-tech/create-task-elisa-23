@@ -5,11 +5,15 @@ const DOMSelectors = {
     history: document.querySelector("#history"),
     shop: document.querySelector("#shop"),
     container: document.querySelector("#container"),
-    itemContainer: document.querySelector("#items")
+    itemContainer: document.querySelector("#items"),
+    pulls: document.querySelector("#pull"),
+    currency: document.querySelector("#starglitter")
 };
 
 let characters = [];
 let aquired = [];
+
+let history = [];
 
 let fivePity = 0.006;
 let fourPity = 0.06;
@@ -73,8 +77,6 @@ async function getData() {
     }
 }
 
-getData();
-
 function updatePity() {
     if ((pulls >= 75) && (pulls <= 90)) {
         fivePity += .066;
@@ -86,6 +88,7 @@ function updatePity() {
 }
 
 function getCharacter(characts, rarity, n) {
+    const cardsContainer = document.querySelector("#cards");
     let rnd = Math.round(Math.random() * (n - 1));
     const character = characts[rnd].name;
     history.push(character);
@@ -102,14 +105,15 @@ function getCharacter(characts, rarity, n) {
     } else {
         console.log("loading... acquired CHARACTER: " + character);
         aquired.push(character);
-        //add or display on screen - use card
     }
 }
 
 function gacha(n) {
+    const cardsContainer = document.querySelector("#cards");
     for (let i = 1; i <= n; i++) {
         pulls++;
         updatePity();
+        DOMSelectors.pulls.innerHTML = `Pity: ${pulls}`;
         const num = Math.random();
         if (num < fivePity) {
             getCharacter(fiveStars, 5, five);
@@ -125,7 +129,7 @@ function gacha(n) {
                 //add or display on screen - card
             }
         }
-        console.log(fivePity, fourPity);
+        DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
     }
 }
 
@@ -134,27 +138,30 @@ function wish() {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             `<button class="pull" id="ten">Pull 10x</button>
-            <button class="pull" id="one">Pull 1x</button>`
+            <button class="pull" id="one">Pull 1x</button>
+            <div class="" id="cards"></div>`
         );
         const ten = document.querySelector("#ten");
         const one = document.querySelector("#one")
         ten.addEventListener("click", function () {
-            DOMSelectors.itemContainer.innerHTML = "";
             gacha(10);
         });
         one.addEventListener("click", function () {
-            DOMSelectors.itemContainer.innerHTML = "";
             gacha(1);
         });
     });
 }
 
-wish();
-
-function history() {
+function records() {
     DOMSelectors.history.addEventListener("click", async function () {
         DOMSelectors.itemContainer.innerHTML = "";
     })
 }
 
-history();
+async function run() {
+    await getData();
+    wish();
+    records();
+}
+
+run();
