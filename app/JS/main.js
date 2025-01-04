@@ -7,7 +7,7 @@ const DOMSelectors = {
     container: document.querySelector("#container"),
     itemContainer: document.querySelector("#items"),
     pulls: document.querySelector("#pull"),
-    currency: document.querySelector("#starglitter")
+    currency: document.querySelector("#starglitter"),
 };
 
 let characters = [];
@@ -96,20 +96,62 @@ function getCharacter(characts, rarity, n) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
             starGlitter += 25;
-            //add or display on screen - card
+            cardsContainer.insertAdjacentHTML("beforeend",
+                `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                    <figure class="pt-10">
+                        <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
+                            class="rounded-xl" />
+                    </figure>
+                    <div class="card-body items-center text-center">
+                        <h2 class="card-title">Starglitter (x25)</h2>
+                        <p>★ ★ ★ ★ ★</p>
+                    </div>
+                </div>`);
         } else {
             console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.");
             starGlitter += 5;
-            //add or display on screen - card
+            cardsContainer.insertAdjacentHTML("beforeend",
+                `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                    <figure class="pt-10">
+                        <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
+                            class="rounded-xl" />
+                    </figure>
+                    <div class="card-body items-center text-center">
+                        <h2 class="card-title">Starglitter (x5)</h2>
+                        <p>★ ★ ★ ★ ★</p>
+                    </div>
+                </div>`);
         }
     } else {
         console.log("loading... acquired CHARACTER: " + character);
         aquired.push(character);
+        let stars = "";
+        let bg = ""
+        if (rarity === 5) {
+            stars = "★ ★ ★ ★ ★";
+            bg = "bg-yellow-50";
+        } else {
+            stars = "★ ★ ★ ★ ☆";
+            bg = "bg-purple-50";
+        }
+        console.log(stars);
+        cardsContainer.insertAdjacentHTML("beforeend",
+            `<div class="card ${bg} shadow-xl h-{1.25rem} w-{17%} m-3">
+                <figure class="pt-10">
+                    <img src="${characts[rnd].imgUrl}" alt="${character} from Genshin"
+                        class="rounded-xl" />
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title">${character}</h2>
+                    <p>${stars}</p>
+                </div>
+            </div>`);
     }
 }
 
 function gacha(n) {
     const cardsContainer = document.querySelector("#cards");
+    cardsContainer.innerHTML = "";
     for (let i = 1; i <= n; i++) {
         pulls++;
         updatePity();
@@ -126,7 +168,17 @@ function gacha(n) {
             } else {
                 console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.")
                 starGlitter += 2;
-                //add or display on screen - card
+                cardsContainer.insertAdjacentHTML("beforeend",
+                    `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                        <figure class="pt-10">
+                            <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
+                                class="rounded-xl" />
+                        </figure>
+                        <div class="card-body items-center text-center">
+                            <h2 class="card-title">Starglitter (x2)</h2>
+                            <p>★ ★ ★ ★ ★</p>
+                        </div>
+                    </div>`);
             }
         }
         DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
@@ -139,7 +191,7 @@ function wish() {
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             `<button class="pull" id="ten">Pull 10x</button>
             <button class="pull" id="one">Pull 1x</button>
-            <div class="" id="cards"></div>`
+            <div class="grid grid-cols-5 grid-rows-2 m-4 pt-10 w-{100%} h-{20rem}" id="cards"></div>`
         );
         const ten = document.querySelector("#ten");
         const one = document.querySelector("#one")
