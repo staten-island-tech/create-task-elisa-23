@@ -60,7 +60,6 @@ async function getData() {
                     await getIndividualData(character);
                 }
             }
-            console.log(characters);
             characters.forEach(character => {
                 if (character.rarity === 5) {
                     five++;
@@ -92,13 +91,17 @@ function updatePity() {
 
 function getCharacter(characts, rarity, n) {
     const cardsContainer = document.querySelector("#cards");
+    const alerts = document.querySelector("#alerts");
     let rnd = Math.round(Math.random() * (n - 1));
     const character = characts[rnd].name;
     history.push(character);
     if (aquired.includes(character) === true) {
         if (rarity === 5) {
-            console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.");
+            console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)");
             starGlitter += 25;
+            alerts.insertAdjacentHTML("beforeend",
+                `<p class="alert">[duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)]</p>`
+            );
             cardsContainer.insertAdjacentHTML("beforeend",
                 `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
                     <figure class="pt-10">
@@ -111,8 +114,11 @@ function getCharacter(characts, rarity, n) {
                     </div>
                 </div>`);
         } else {
-            console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.");
+            console.log("duplicate... SYSTEM donates 5 Starglitter as an apology.(four star)");
             starGlitter += 5;
+            alerts.insertAdjacentHTML("beforeend",
+                `<p class="alert">[duplicate... SYSTEM donates 5 Starglitter as an apology.(four star)]</p>`
+            );
             cardsContainer.insertAdjacentHTML("beforeend",
                 `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
                     <figure class="pt-10">
@@ -128,6 +134,9 @@ function getCharacter(characts, rarity, n) {
     } else {
         console.log("loading... acquired CHARACTER: " + character);
         aquired.push(character);
+        alerts.insertAdjacentHTML("beforeend",
+            `<p class="alert">[loading... acquired CHARACTER: ${character}]</p>`
+        );
         let stars = "";
         let bg = ""
         if (rarity === 5) {
@@ -135,7 +144,7 @@ function getCharacter(characts, rarity, n) {
             bg = "bg-yellow-50";
         } else {
             stars = "★ ★ ★ ★ ☆";
-            bg = "bg-purple-400";
+            bg = "bg-violet-200";
         }
         console.log(stars);
         cardsContainer.insertAdjacentHTML("beforeend",
@@ -155,6 +164,8 @@ function getCharacter(characts, rarity, n) {
 function gacha(n) {
     const cardsContainer = document.querySelector("#cards");
     cardsContainer.innerHTML = "";
+    const alerts = document.querySelector("#alerts");
+    alerts.innerHTML = "";
     for (let i = 1; i <= n; i++) {
         pulls++;
         updatePity();
@@ -169,7 +180,10 @@ function gacha(n) {
                 getCharacter(fourStars, 4, four);
                 fourPity = 0.06;
             } else {
-                console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.")
+                console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.");
+                alerts.insertAdjacentHTML("beforeend",
+                    `<p class="alert">[3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.]</p>`
+                );
                 starGlitter += 2;
                 cardsContainer.insertAdjacentHTML("beforeend",
                     `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
@@ -194,7 +208,8 @@ function wish() {
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             `<button class="pull" id="ten">Pull 10x</button>
             <button class="pull" id="one">Pull 1x</button>
-            <div class="grid grid-cols-5 grid-rows-2 m-4 pt-10 w-{100%} h-{20rem}" id="cards"></div>`
+            <div class="pt-10" id="alerts"></div>
+            <div class="grid grid-cols-5 grid-rows-2 m-4 pt-5 w-{100%} h-{20rem}" id="cards"></div>`
         );
         const ten = document.querySelector("#ten");
         const one = document.querySelector("#one")
