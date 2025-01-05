@@ -94,7 +94,7 @@ function getCharacter(characts, rarity, n) {
     const alerts = document.querySelector("#alerts");
     let rnd = Math.round(Math.random() * (n - 1));
     const character = characts[rnd].name;
-    history.push(character);
+    history.push(characts[rnd]);
     if (aquired.includes(character) === true) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)");
@@ -133,7 +133,7 @@ function getCharacter(characts, rarity, n) {
         }
     } else {
         console.log("loading... acquired CHARACTER: " + character);
-        aquired.push(character);
+        aquired.push(characts[rnd]);
         alerts.insertAdjacentHTML("beforeend",
             `<p class="alert">[loading... acquired CHARACTER: ${character}]</p>`
         );
