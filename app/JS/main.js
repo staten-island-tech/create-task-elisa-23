@@ -35,29 +35,32 @@ async function getData() {
         } else {
             const data = await response.json();
             for (const character of data) {
-                async function getIndividualData(character) {
-                    try {
-                        const indiviResponse = await fetch(`https://genshin.jmp.blue/characters/${character}`);
-                        if (indiviResponse.status != 200) {
-                            throw new Error(response);
-                        } else {
-                            const indiviData = await indiviResponse.json();
-                            let charactData = {
-                                name: indiviData.name,
-                                rarity: indiviData.rarity,
-                                title: indiviData.title,
-                                element: indiviData.vision,
-                                imgUrl: `https://genshin.jmp.blue/characters/${character}/icon-big`
+                if (character.includes("traveler") === false) {
+                    async function getIndividualData(character) {
+                        try {
+                            const indiviResponse = await fetch(`https://genshin.jmp.blue/characters/${character}`);
+                            if (indiviResponse.status != 200) {
+                                throw new Error(response);
+                            } else {
+                                const indiviData = await indiviResponse.json();
+                                let charactData = {
+                                    name: indiviData.name,
+                                    rarity: indiviData.rarity,
+                                    title: indiviData.title,
+                                    element: indiviData.vision,
+                                    imgUrl: `https://genshin.jmp.blue/characters/${character}/icon`
+                                }
+                                characters.push(charactData);
                             }
-                            characters.push(charactData);
+                        } catch (error) {
+                            console.log(error);
+                            alert("sorry could not find that character");
                         }
-                    } catch (error) {
-                        console.log(error);
-                        alert("sorry could not find that character");
                     }
+                    await getIndividualData(character);
                 }
-                await getIndividualData(character);
             }
+            console.log(characters);
             characters.forEach(character => {
                 if (character.rarity === 5) {
                     five++;
@@ -132,7 +135,7 @@ function getCharacter(characts, rarity, n) {
             bg = "bg-yellow-50";
         } else {
             stars = "★ ★ ★ ★ ☆";
-            bg = "bg-purple-50";
+            bg = "bg-purple-400";
         }
         console.log(stars);
         cardsContainer.insertAdjacentHTML("beforeend",
