@@ -27,6 +27,14 @@ let fiveStars = [];
 let four = 0;
 let fourStars = [];
 
+let star = {
+    name: "Starglitter (x2)",
+    rarity: 5,
+    title: "Masterless Starglitter",
+    element: "N/A",
+    imgUrl: "/starglitter-icon.png"
+}
+
 async function getData() {
     try {
         const response = await fetch("https://genshin.jmp.blue/characters/");
@@ -35,7 +43,7 @@ async function getData() {
         } else {
             const data = await response.json();
             for (const character of data) {
-                if (character.includes("traveler") === false) {
+                if (character.includes("traveler") === false || character === "aloy") {
                     async function getIndividualData(character) {
                         try {
                             const indiviResponse = await fetch(`https://genshin.jmp.blue/characters/${character}`);
@@ -95,7 +103,7 @@ function getCharacter(characts, rarity, n) {
     let rnd = Math.round(Math.random() * (n - 1));
     const character = characts[rnd].name;
     history.push(characts[rnd]);
-    if (aquired.includes(character) === true) {
+    if (aquired.includes(characts[rnd]) === true) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)");
             starGlitter += 25;
@@ -180,6 +188,7 @@ function gacha(n) {
                 getCharacter(fourStars, 4, four);
                 fourPity = 0.06;
             } else {
+                history.push(star);
                 console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.");
                 alerts.insertAdjacentHTML("beforeend",
                     `<p class="alert">[3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.]</p>`
@@ -225,6 +234,74 @@ function wish() {
 function records() {
     DOMSelectors.history.addEventListener("click", async function () {
         DOMSelectors.itemContainer.innerHTML = "";
+        DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
+            `<div class="overflow-x-auto w-{100%} bg-slate-100">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Rarity</th>
+                            <th>Element</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table">
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Rarity</th>
+                            <th>Element</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>`
+        );
+        const table = document.querySelector("#table");
+        let number = history.length;
+        for (const character of history) {
+            let stars = "";
+            let rarityText = "";
+            let bg = "";
+            if (character.rarity === 5) {
+                stars = "★ ★ ★ ★ ★";
+                rarityText = "FIVE";
+                bg = "bg-yellow-50";
+            } else {
+                stars = "★ ★ ★ ★ ☆";
+                rarityText = "FOUR";
+                bg = "bg-violet-200";
+            }
+            table.insertAdjacentHTML("beforeend",
+                `<tr>
+                <th>${number}</th>
+                    <td>
+                    <div class="flex items-center gap-3 bg-slate-100">
+                        <div class="avatar">
+                            <div class="mask mask-squircle h-12 w-12">
+                                <img src="${character.imgUrl}" alt="Images of ${character.name}" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold">${character.name}</div>
+                            <div class="text-sm opacity-50">${character.title}</div>
+                        </div>
+                    </div>
+                    </td>
+                    <td>
+                        ${rarityText}
+                        <br />
+                        <span class="badge badge-ghost badge-sm">${stars}</span>
+                    </td>
+                <th>
+                    <button class="btn btn-ghost btn-xs">${character.element}</button>
+                </th>
+              </tr>`
+            );
+            number--;
+        }
     })
 }
 
