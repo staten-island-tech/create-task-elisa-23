@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.pull {
+.button-mine {
     background-color: navy;
     color: aliceblue;
     align-items: center;
@@ -19,6 +19,10 @@
 
 #one {
     left: 50%;
+}
+
+#reroll {
+    left: 45%;
 }
 
 .alert {

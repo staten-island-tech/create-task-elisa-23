@@ -4,6 +4,7 @@ const DOMSelectors = {
     wish: document.querySelector("#wish"),
     history: document.querySelector("#history"),
     shop: document.querySelector("#shop"),
+    data: document.querySelector("#data"),
     container: document.querySelector("#container"),
     itemContainer: document.querySelector("#items"),
     pulls: document.querySelector("#pull"),
@@ -32,8 +33,9 @@ let star = {
     rarity: 5,
     title: "Masterless Starglitter",
     element: "N/A",
-    imgUrl: "/starglitter-icon.png"
-}
+    imgUrl: "/starglitter-icon.png",
+    pity: 0,
+};
 
 async function getData() {
     try {
@@ -56,7 +58,8 @@ async function getData() {
                                     rarity: indiviData.rarity,
                                     title: indiviData.title,
                                     element: indiviData.vision,
-                                    imgUrl: `https://genshin.jmp.blue/characters/${character}/icon`
+                                    imgUrl: `https://genshin.jmp.blue/characters/${character}/icon`,
+                                    pity: 0
                                 }
                                 characters.push(charactData);
                             }
@@ -101,8 +104,9 @@ function getCharacter(characts, rarity, n) {
     const cardsContainer = document.querySelector("#cards");
     const alerts = document.querySelector("#alerts");
     let rnd = Math.round(Math.random() * (n - 1));
-    const character = characts[rnd].name;
-    history.push(characts[rnd]);
+    const characterName = characts[rnd].name;
+    const character = { ...characts[rnd], pity: pulls };
+    history.push({ ...character });
     if (aquired.includes(characts[rnd]) === true) {
         if (rarity === 5) {
             console.log("duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)");
@@ -111,7 +115,7 @@ function getCharacter(characts, rarity, n) {
                 `<p class="alert">[duplicate... SYSTEM donates 25 Starglitter as an apology.(five star)]</p>`
             );
             cardsContainer.insertAdjacentHTML("beforeend",
-                `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                `<div class="card bg-slate-100 shadow-xl h-{1.25rem} w-{17%} m-3">
                     <figure class="pt-10">
                         <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
                             class="rounded-xl" />
@@ -128,7 +132,7 @@ function getCharacter(characts, rarity, n) {
                 `<p class="alert">[duplicate... SYSTEM donates 5 Starglitter as an apology.(four star)]</p>`
             );
             cardsContainer.insertAdjacentHTML("beforeend",
-                `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                `<div class="card bg-slate-100 shadow-xl h-{1.25rem} w-{17%} m-3">
                     <figure class="pt-10">
                         <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
                             class="rounded-xl" />
@@ -140,10 +144,10 @@ function getCharacter(characts, rarity, n) {
                 </div>`);
         }
     } else {
-        console.log("loading... acquired CHARACTER: " + character);
-        aquired.push(characts[rnd]);
+        console.log("loading... acquired CHARACTER: " + characterName);
+        aquired.push(character);
         alerts.insertAdjacentHTML("beforeend",
-            `<p class="alert">[loading... acquired CHARACTER: ${character}]</p>`
+            `<p class="alert">[loading... acquired CHARACTER: ${characterName}]</p>`
         );
         let stars = "";
         let bg = ""
@@ -158,11 +162,11 @@ function getCharacter(characts, rarity, n) {
         cardsContainer.insertAdjacentHTML("beforeend",
             `<div class="card ${bg} shadow-xl h-{1.25rem} w-{17%} m-3">
                 <figure class="pt-10">
-                    <img src="${characts[rnd].imgUrl}" alt="${character} from Genshin"
+                    <img src="${character.imgUrl}" alt="${characterName} from Genshin"
                         class="rounded-xl" />
                 </figure>
                 <div class="card-body items-center text-center">
-                    <h2 class="card-title">${character}</h2>
+                    <h2 class="card-title">${characterName}</h2>
                     <p>${stars}</p>
                 </div>
             </div>`);
@@ -188,14 +192,15 @@ function gacha(n) {
                 getCharacter(fourStars, 4, four);
                 fourPity = 0.06;
             } else {
-                history.push(star);
+                const starglitterCurrent = { ...star, pity: pulls };
+                history.push({ ...starglitterCurrent });
                 console.log("3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.");
                 alerts.insertAdjacentHTML("beforeend",
                     `<p class="alert">[3RR0R... SYSTEM M@1fu^cti0n. ▇ ▇ has donated 2 Starglitters.]</p>`
                 );
                 starGlitter += 2;
                 cardsContainer.insertAdjacentHTML("beforeend",
-                    `<div class="card bg-yellow-50 shadow-xl h-{1.25rem} w-{17%} m-3">
+                    `<div class="card bg-slate-100 shadow-xl h-{1.25rem} w-{17%} m-3">
                         <figure class="pt-10">
                             <img src="/starglitter-icon.png" alt="Masterless Starglitter from Genshin"
                                 class="rounded-xl" />
@@ -212,11 +217,11 @@ function gacha(n) {
 }
 
 function wish() {
-    DOMSelectors.wish.addEventListener("click", async function () {
+    DOMSelectors.wish.addEventListener("click", function () {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            `<button class="pull" id="ten">Pull 10x</button>
-            <button class="pull" id="one">Pull 1x</button>
+            `<button class="button-mine" id="ten">Pull 10x</button>
+            <button class="button-mine" id="one">Pull 1x</button>
             <div class="pt-10" id="alerts"></div>
             <div class="grid grid-cols-5 grid-rows-2 m-4 pt-5 w-{100%} h-{20rem}" id="cards"></div>`
         );
@@ -232,7 +237,7 @@ function wish() {
 }
 
 function records() {
-    DOMSelectors.history.addEventListener("click", async function () {
+    DOMSelectors.history.addEventListener("click", function () {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             `<div class="overflow-x-auto w-{100%} bg-slate-100">
@@ -260,15 +265,16 @@ function records() {
             </div>`
         );
         const table = document.querySelector("#table");
-        let number = history.length;
         for (const character of history) {
             let stars = "";
             let rarityText = "";
             let bg = "";
             if (character.rarity === 5) {
+                if (character.name !== "Starglitter (x2)") {
+                    bg = "bg-yellow-50";
+                }
                 stars = "★ ★ ★ ★ ★";
                 rarityText = "FIVE";
-                bg = "bg-yellow-50";
             } else {
                 stars = "★ ★ ★ ★ ☆";
                 rarityText = "FOUR";
@@ -276,9 +282,9 @@ function records() {
             }
             table.insertAdjacentHTML("beforeend",
                 `<tr>
-                <th>${number}</th>
+                <th>${character.pity}</th>
                     <td>
-                    <div class="flex items-center gap-3 bg-slate-100">
+                    <div class="flex items-center gap-3 ${bg}">
                         <div class="avatar">
                             <div class="mask mask-squircle h-12 w-12">
                                 <img src="${character.imgUrl}" alt="Images of ${character.name}" />
@@ -300,15 +306,80 @@ function records() {
                 </th>
               </tr>`
             );
-            number--;
         }
-    })
+    });
+}
+
+function shop() {
+    DOMSelectors.shop.addEventListener("click", function () {
+        DOMSelectors.itemContainer.innerHTML = "";
+        DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
+            `<button class="button-mine" id="reroll">Reroll</button>
+            <div class="grid grid-cols-3 grid-rows-2 m-4 pt-5 w-{100%} h-{20rem}" id="inventory"></div>`
+        );
+        const inventory = document.querySelector("#inventory");
+        function storeInventory() {
+            let store = [];
+            let notAquired = [];
+            let fourStock = 0;
+            let fiveStock = 0;
+            for (const character of characters) {
+                if (aquired.includes(character) === false) {
+                    notAquired.push(character);
+                }
+            }
+            while (store.length !== 6) {
+                let rnd = Math.round(Math.random() * (n - 1));
+                let character = characters[rnd];
+                if (store.includes(character) === false) {
+                    let rarity = character.rarity;
+                    let inv = {};
+                    if (rarity === 5) {
+                        if (fiveStock !== 2) {
+                            fiveStock++;
+                            if (notAquired.includes(character) === false) {
+                                inv = { ...character, stock: 0 };
+                            } else {
+                                inv = { ...character, stock: 1 };
+                            }
+                            store.push(inv);
+                        }
+                    } else {
+                        if (fourStock !== 4) {
+                            fourStock++;
+                            if (notAquired.includes(character) === false) {
+                                inv = { ...character, stock: 0 };
+                            } else {
+                                inv = { ...character, stock: 1 };
+                            }
+                            store.push(inv);
+                        }
+                    }
+                }
+            }
+            for (const item of store) {
+                inventory.insertAdjacentHTML("beforeend",
+                    ``  // add card div details + button (add functionality later)
+                );
+            }
+        }
+    });
+}
+
+function data() {
+    DOMSelectors.data.addEventListener("click", function () {
+        DOMSelectors.itemContainer.innerHTML = "";
+    });
 }
 
 async function run() {
+    alert("SYSTEM lo@d1n9...pl3ase wa1t. SYSTEM sha11 s3nd an alert when c0mpleted.");
     await getData();
+    alert("LOADING... complete. Enjoy!!");
     wish();
     records();
+    shop();
+    data();
 }
 
 run();
