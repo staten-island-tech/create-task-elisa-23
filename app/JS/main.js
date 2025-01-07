@@ -314,56 +314,89 @@ function shop() {
     DOMSelectors.shop.addEventListener("click", function () {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            `<button class="button-mine" id="reroll">Reroll</button>
+            `<button class="button-mine" id="reroll">Reroll (-200sg)</button>
             <div class="grid grid-cols-3 grid-rows-2 m-4 pt-5 w-{100%} h-{20rem}" id="inventory"></div>`
         );
         const inventory = document.querySelector("#inventory");
-        function storeInventory() {
-            let store = [];
-            let notAquired = [];
-            let fourStock = 0;
-            let fiveStock = 0;
-            for (const character of characters) {
-                if (aquired.includes(character) === false) {
-                    notAquired.push(character);
-                }
+        storeInventory(inventory);
+        const reroll = document.querySelector("#reroll");
+        reroll.addEventListener("click", function () {
+            alert("rerolling... charging account for purchase. Subtracting 200 starglitter from inventory.");
+            if (starGlitter < 200) {
+                alert("3RR0R... SYSTEM detected anomaly: BROKE.");
+            } else {
+                alert("Purchase... successful.");
+                starGlitter -= 200;
+                DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
+                storeInventory(inventory);
             }
-            while (store.length !== 6) {
-                let rnd = Math.round(Math.random() * (n - 1));
-                let character = characters[rnd];
-                if (store.includes(character) === false) {
-                    let rarity = character.rarity;
-                    let inv = {};
-                    if (rarity === 5) {
-                        if (fiveStock !== 2) {
-                            fiveStock++;
-                            if (notAquired.includes(character) === false) {
-                                inv = { ...character, stock: 0 };
-                            } else {
-                                inv = { ...character, stock: 1 };
-                            }
-                            store.push(inv);
-                        }
+        });
+    });
+}
+
+function storeInventory(inventory) {
+    inventory.innerHTML = "";
+    let store = [];
+    let notAquired = [];
+    let fourStock = 0;
+    let fiveStock = 0;
+    for (const character of characters) {
+        if (aquired.includes(character) === false) {
+            notAquired.push(character);
+        }
+    }
+    while (store.length !== 6) {
+        let rnd = Math.round(Math.random() * ((characters.length) - 1));
+        let character = characters[rnd];
+        if (store.includes(character) === false) {
+            let rarity = character.rarity;
+            let inv = {};
+            if (rarity === 5) {
+                if (fiveStock !== 2) {
+                    fiveStock++;
+                    if (notAquired.includes(character) === false) {
+                        inv = { ...character, stock: 0, price: 1632, stars: "★ ★ ★ ★ ★" };
                     } else {
-                        if (fourStock !== 4) {
-                            fourStock++;
-                            if (notAquired.includes(character) === false) {
-                                inv = { ...character, stock: 0 };
-                            } else {
-                                inv = { ...character, stock: 1 };
-                            }
-                            store.push(inv);
-                        }
+                        inv = { ...character, stock: 1, price: 1632, stars: "★ ★ ★ ★ ★" };
                     }
+                    store.push(inv);
                 }
-            }
-            for (const item of store) {
-                inventory.insertAdjacentHTML("beforeend",
-                    ``  // add card div details + button (add functionality later)
-                );
+            } else {
+                if (fourStock !== 4) {
+                    fourStock++;
+                    if (notAquired.includes(character) === false) {
+                        inv = { ...character, stock: 0, price: 128, stars: "★ ★ ★ ★ ☆" };
+                    } else {
+                        inv = { ...character, stock: 1, price: 128, stars: "★ ★ ★ ★ ☆" };
+                    }
+                    store.push(inv);
+                }
             }
         }
-    });
+    }
+    for (const item of store) {
+        inventory.insertAdjacentHTML("beforeend",
+            `<div class="card bg-base-100 w-96 shadow-xl">
+                <figure class="px-10 pt-10">
+                <img
+                    src="${item.imgUrl}"
+                    alt="Image of ${item.name}"
+                    class="rounded-xl" />
+                </figure>
+                <div class="card-body items-center text-center">
+                <h2 class="card-title">${item.name}</h2>
+                <p>${item.stars}</p>
+                <br />
+                <p>${item.stock}/1</p>
+                <div class="card-actions">
+                    <button class="btn bg-sky-300 buy">Buy Now</button>
+                </div>
+                </div>
+            </div>`
+        );
+    }
+    const buyBtn = document.querySelectorAll(".buy");
+    buyBtn.addEventListener
 }
 
 function data() {
