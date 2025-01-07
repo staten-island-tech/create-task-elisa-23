@@ -337,44 +337,56 @@ function shop() {
 function storeInventory(inventory) {
     inventory.innerHTML = "";
     let store = [];
-    let notAquired = [];
+    let storeName = [];
+    let aquiredName = [];
+    for (const character of aquired) {
+        aquiredName.push(character.name);
+    }
     let fourStock = 0;
     let fiveStock = 0;
-    for (const character of characters) {
-        if (aquired.includes(character) === false) {
-            notAquired.push(character);
-        }
-    }
     while (store.length !== 6) {
         let rnd = Math.round(Math.random() * ((characters.length) - 1));
         let character = characters[rnd];
-        if (store.includes(character) === false) {
+        console.log(character);
+        if (storeName.includes(character.name) === false) {
             let rarity = character.rarity;
             let inv = {};
             if (rarity === 5) {
                 if (fiveStock !== 2) {
                     fiveStock++;
-                    if (notAquired.includes(character) === false) {
+                    console.log(aquired);
+                    if (aquiredName.includes(character.name)) {
                         inv = { ...character, stock: 0, price: 1632, stars: "★ ★ ★ ★ ★" };
                     } else {
                         inv = { ...character, stock: 1, price: 1632, stars: "★ ★ ★ ★ ★" };
                     }
                     store.push(inv);
+                    storeName.push(character.name);
                 }
             } else {
                 if (fourStock !== 4) {
                     fourStock++;
-                    if (notAquired.includes(character) === false) {
+                    if (aquiredName.includes(character.name)) {
                         inv = { ...character, stock: 0, price: 128, stars: "★ ★ ★ ★ ☆" };
                     } else {
                         inv = { ...character, stock: 1, price: 128, stars: "★ ★ ★ ★ ☆" };
                     }
                     store.push(inv);
+                    storeName.push(character.name);
                 }
             }
         }
     }
     for (const item of store) {
+        let btnText = "";
+        let bg = "";
+        if (item.stock === 0) {
+            btnText = "Sold Out";
+            bg = "bg-slate-400";
+        } else {
+            btnText = "Buy Now";
+            bg = "bg-sky-300";
+        }
         inventory.insertAdjacentHTML("beforeend",
             `<div class="card bg-base-100 w-{26%} h-{2.25rem} m-5 shadow-xl">
                 <figure class="pt-10">
@@ -390,16 +402,17 @@ function storeInventory(inventory) {
                     <br />
                     <p>${item.stock}/1</p>
                     <div class="card-actions">
-                        <button class="btn bg-sky-300 buy" data-price="${item.rarity}">Buy Now</button>
+                        <button class="buy btn ${bg}" data-price="${item.rarity}">${btnText}</button>
                     </div>
                 </div>
             </div>`
         );
     }
-    const buyBtn = document.querySelectorAll(".buy");
-    buyBtn.addEventListener("click", function () {
+    const buyBtns = document.querySelectorAll('.buy.btn.bg-sky-300');
+    buyBtns.forEach((btn) => btn.addEventListener("click", function () {
+        const price = btn.getAttribute('data-price');
 
-    });
+    }))
 }
 
 function data() {
