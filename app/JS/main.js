@@ -315,7 +315,7 @@ function shop() {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
             `<button class="button-mine" id="reroll">Reroll (-200sg)</button>
-            <div class="grid grid-cols-3 grid-rows-2 m-4 pt-5 w-{100%} h-{20rem}" id="inventory"></div>`
+            <div class="grid grid-cols-3 grid-rows-2 m-4 pt-10 w-{100%} h-{20rem}" id="inventory"></div>`
         );
         const inventory = document.querySelector("#inventory");
         storeInventory(inventory);
@@ -376,27 +376,30 @@ function storeInventory(inventory) {
     }
     for (const item of store) {
         inventory.insertAdjacentHTML("beforeend",
-            `<div class="card bg-base-100 w-96 shadow-xl">
-                <figure class="px-10 pt-10">
-                <img
-                    src="${item.imgUrl}"
-                    alt="Image of ${item.name}"
-                    class="rounded-xl" />
+            `<div class="card bg-base-100 w-{26%} h-{2.25rem} m-5 shadow-xl">
+                <figure class="pt-10">
+                    <img
+                        src="${item.imgUrl}"
+                        alt="Image of ${item.name}"
+                        class="rounded-xl" />
                 </figure>
                 <div class="card-body items-center text-center">
-                <h2 class="card-title">${item.name}</h2>
-                <p>${item.stars}</p>
-                <br />
-                <p>${item.stock}/1</p>
-                <div class="card-actions">
-                    <button class="btn bg-sky-300 buy">Buy Now</button>
-                </div>
+                    <h2 class="card-title">${item.name}</h2>
+                    <p>${item.stars}</p>
+                    <p>${item.price} Starglitters</p>
+                    <br />
+                    <p>${item.stock}/1</p>
+                    <div class="card-actions">
+                        <button class="btn bg-sky-300 buy" data-price="${item.rarity}">Buy Now</button>
+                    </div>
                 </div>
             </div>`
         );
     }
     const buyBtn = document.querySelectorAll(".buy");
-    buyBtn.addEventListener
+    buyBtn.addEventListener("click", function () {
+
+    });
 }
 
 function data() {
