@@ -347,14 +347,12 @@ function storeInventory(inventory) {
     while (store.length !== 6) {
         let rnd = Math.round(Math.random() * ((characters.length) - 1));
         let character = characters[rnd];
-        console.log(character);
         if (storeName.includes(character.name) === false) {
             let rarity = character.rarity;
             let inv = {};
             if (rarity === 5) {
                 if (fiveStock !== 2) {
                     fiveStock++;
-                    console.log(aquired);
                     if (aquiredName.includes(character.name)) {
                         inv = { ...character, stock: 0, price: 1632, stars: "★ ★ ★ ★ ★" };
                     } else {
@@ -400,18 +398,42 @@ function storeInventory(inventory) {
                     <p>${item.stars}</p>
                     <p>${item.price} Starglitters</p>
                     <br />
-                    <p>${item.stock}/1</p>
+                    <p class="stock" data-character="${item.name}">${item.stock}/1</p>
                     <div class="card-actions">
-                        <button class="buy btn ${bg}" data-price="${item.rarity}">${btnText}</button>
+                        <button class="buy btn ${bg}" data-price="${item.rarity}" data-character="${item.name}">${btnText}</button>
                     </div>
                 </div>
             </div>`
         );
     }
     const buyBtns = document.querySelectorAll('.buy.btn.bg-sky-300');
+    const stockText = document.querySelectorAll('.stock');
     buyBtns.forEach((btn) => btn.addEventListener("click", function () {
         const price = btn.getAttribute('data-price');
-
+        const itemCharacter = btn.getAttribute('data-character');
+        let item = {};
+        for (const character of characters) {
+            if (character.name === itemCharacter) {
+                item = { ...character };
+            }
+        }
+        alert(`Purchasing character for ${price}. Subtracting now...`)
+        if (starGlitter < price) {
+            alert("3RR0R... SYSTEM detected anomaly: BROKE.");
+        } else {
+            alert("Purchase... successful.");
+            starGlitter -= parseInt(price);
+            console.log(item);
+            aquired.push(item);
+            DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
+            btn.innerHTML = "Sold Out";
+            btn.className = ".buy.btn.bg-slate-400";
+            stockText.forEach((text) => {
+                if (text.getAttribute('data-character') === itemCharacter) {
+                    text.innerHTML = "0/1"
+                }
+            });
+        }
     }))
 }
 
