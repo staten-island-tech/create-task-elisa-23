@@ -400,7 +400,7 @@ function storeInventory(inventory) {
     }
     let buyBtns = Array.from(document.querySelectorAll('.buy.btn.bg-sky-300'));
     const stockText = document.querySelectorAll('.stock');
-    buyBtns.forEach((btn) => btn.addEventListener("click", function () {
+    buyBtns.forEach((btn) => btn.addEventListener("click", function buyCharacter() {
         const price = btn.getAttribute('data-price');
         const itemCharacter = btn.getAttribute('data-character');
         let item = {};
@@ -425,7 +425,7 @@ function storeInventory(inventory) {
                     text.innerHTML = "0/1";
                 }
             });
-            buyBtns.splice(buyBtns.indexOf(btn), 1);
+            btn.removeEventListener("click", buyCharacter);
         }
     }))
 }
