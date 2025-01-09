@@ -380,7 +380,7 @@ function storeInventory(inventory) {
         let bg = "";
         if (item.stock === 0) {
             btnText = "Sold Out";
-            bg = "bg-slate-400";
+            bg = "bg-gray-100";
         } else {
             btnText = "Buy Now";
             bg = "bg-sky-300";
@@ -400,13 +400,13 @@ function storeInventory(inventory) {
                     <br />
                     <p class="stock" data-character="${item.name}">${item.stock}/1</p>
                     <div class="card-actions">
-                        <button class="buy btn ${bg}" data-price="${item.rarity}" data-character="${item.name}">${btnText}</button>
+                        <button class="buy btn ${bg}" data-price="${item.price}" data-character="${item.name}">${btnText}</button>
                     </div>
                 </div>
             </div>`
         );
     }
-    const buyBtns = document.querySelectorAll('.buy.btn.bg-sky-300');
+    let buyBtns = Array.from(document.querySelectorAll('.buy.btn.bg-sky-300'));
     const stockText = document.querySelectorAll('.stock');
     buyBtns.forEach((btn) => btn.addEventListener("click", function () {
         const price = btn.getAttribute('data-price');
@@ -427,12 +427,13 @@ function storeInventory(inventory) {
             aquired.push(item);
             DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
             btn.innerHTML = "Sold Out";
-            btn.className = ".buy.btn.bg-slate-400";
+            btn.style.backgroundColor = "#f3f4f6";
             stockText.forEach((text) => {
                 if (text.getAttribute('data-character') === itemCharacter) {
-                    text.innerHTML = "0/1"
+                    text.innerHTML = "0/1";
                 }
             });
+            buyBtns.splice(buyBtns.indexOf(btn), 1);
         }
     }))
 }
