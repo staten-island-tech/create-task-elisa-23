@@ -158,7 +158,6 @@ function getCharacter(characts, rarity, n) {
             stars = "★ ★ ★ ★ ☆";
             bg = "bg-violet-200";
         }
-        console.log(stars);
         cardsContainer.insertAdjacentHTML("beforeend",
             `<div class="card ${bg} shadow-xl h-{1.25rem} w-{17%} m-3">
                 <figure class="pt-10">
@@ -415,7 +414,6 @@ function storeInventory(inventory) {
         } else {
             alert("Purchase... successful.");
             starGlitter -= parseInt(price);
-            console.log(item);
             aquired.push(item);
             DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
             btn.innerHTML = "Sold Out";
@@ -442,7 +440,6 @@ function data() {
             aquiredName.push(character.name);
         }
         for (const character of characters) {
-            console.log(character);
             let stars = "";
             if (character.rarity === 5) {
                 stars = "★ ★ ★ ★ ★";
