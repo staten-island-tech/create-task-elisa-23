@@ -8,7 +8,7 @@
   <title>Gacha Sim</title>
 </head>
 
-<body class="bg-[url('/wishBackground.png')] bg-cover">
+<body>
   <div class="navbar bg-base-100">
     <div class="navbar-start">
       <a class="btn btn-ghost text-xl" id="pull">Pity: 0</a>
@@ -39,7 +39,26 @@
       </ul>
     </div>
   </div>
-  <div class="w-[100%] h-[66rem] pt-6" id="items">
+  <div class="w-full min-h-[66rem] max-h-full py-6 bg-[url('/wishBackground.png')] bg-cover" id="items">
+    <!-- <div class="card bg-gray-400 shadow-xl h-{1.25rem} w-{17%} m-3">
+      <figure class="pt-10">
+        <img src="${character.imgUrl}" alt="${character.name} from Genshin" class="rounded-xl" />
+      </figure>
+      <div class="card-body items-center text-center">
+        <h2 class="card-title">${character.name}</h2>
+        <p>${stars}</p>
+      </div>
+    </div> -->
+    <!-- <div class="card bg-white shadow-xl h-{1.25rem} w-{17%} m-3">
+      <figure class="pt-10">
+          <img src="${character.imgUrl}" alt="${character.name} from Genshin"
+              class="rounded-xl" />
+      </figure>
+      <div class="card-body items-center text-center">
+          <h2 class="card-title">${character.name}</h2>
+          <p>${stars}</p>
+      </div>
+  </div> -->
     <!-- <button class="button-mine" id="reroll">Reroll (-200sg)</button>
     <div class="grid grid-cols-3 grid-rows-2 m-4 pt-10 w-{100%} h-{20rem}" id="inventory">
       <div class="card bg-base-100 w-{26%} h-{2.25rem} m-5 shadow-xl">

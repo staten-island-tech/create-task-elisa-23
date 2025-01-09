@@ -314,22 +314,14 @@ function shop() {
     DOMSelectors.shop.addEventListener("click", function () {
         DOMSelectors.itemContainer.innerHTML = "";
         DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
-            `<button class="button-mine" id="reroll">Reroll (-200sg)</button>
+            `<button class="button-mine" id="reroll">Reroll</button>
             <div class="grid grid-cols-3 grid-rows-2 m-4 pt-10 w-{100%} h-{20rem}" id="inventory"></div>`
         );
         const inventory = document.querySelector("#inventory");
         storeInventory(inventory);
         const reroll = document.querySelector("#reroll");
         reroll.addEventListener("click", function () {
-            alert("rerolling... charging account for purchase. Subtracting 200 starglitter from inventory.");
-            if (starGlitter < 200) {
-                alert("3RR0R... SYSTEM detected anomaly: BROKE.");
-            } else {
-                alert("Purchase... successful.");
-                starGlitter -= 200;
-                DOMSelectors.currency.innerHTML = `Starglitter: ${starGlitter}`;
-                storeInventory(inventory);
-            }
+            storeInventory(inventory);
         });
     });
 }
@@ -441,6 +433,50 @@ function storeInventory(inventory) {
 function data() {
     DOMSelectors.data.addEventListener("click", function () {
         DOMSelectors.itemContainer.innerHTML = "";
+        DOMSelectors.itemContainer.insertAdjacentHTML("beforeend",
+            `<div class="grid grid-cols-5 grid-flow-row m-4 pt-5 w-{100%} h-{20000rem}" id="indexContainer"></div>`
+        );
+        const index = document.querySelector("#indexContainer");
+        let aquiredName = [];
+        for (const character of aquired) {
+            aquiredName.push(character.name);
+        }
+        for (const character of characters) {
+            console.log(character);
+            let stars = "";
+            if (character.rarity === 5) {
+                stars = "★ ★ ★ ★ ★";
+            } else {
+                stars = "★ ★ ★ ★ ☆";
+            }
+            if (aquiredName.includes(character.name) === true) {
+                index.insertAdjacentHTML("beforeend",
+                    `<div class="card bg-white shadow-xl h-{1.25rem} w-{17%} m-3">
+                        <figure class="pt-10">
+                            <img src="${character.imgUrl}" alt="${character.name} from Genshin"
+                                class="rounded-xl" />
+                        </figure>
+                        <div class="card-body items-center text-center">
+                            <h2 class="card-title">${character.name}</h2>
+                            <p>${stars}</p>
+                        </div>
+                    </div>`
+                );
+            } else {
+                index.insertAdjacentHTML("beforeend",
+                    `<div class="card bg-gray-400 shadow-xl h-{1.25rem} w-{17%} m-3">
+                        <figure class="pt-10">
+                            <img src="${character.imgUrl}" alt="${character.name} from Genshin"
+                                class="rounded-xl" />
+                        </figure>
+                        <div class="card-body items-center text-center">
+                            <h2 class="card-title">${character.name}</h2>
+                            <p>${stars}</p>
+                        </div>
+                    </div>`
+                );
+            }
+        }
     });
 }
 
