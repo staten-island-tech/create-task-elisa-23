@@ -1,3 +1,5 @@
+// CITATIONS: Images and Character data from public API, https://genshin.jmp.blue/characters/
+
 import '../CSS/style.css';
 
 const DOMSelectors = {
@@ -39,6 +41,7 @@ let star = {
 
 async function getData() {
     try {
+        // Using the Fetch API to retrieve data from an external source (citations from google AI)
         const response = await fetch("https://genshin.jmp.blue/characters/");
         if (response.status != 200) {
             throw new Error(response);
